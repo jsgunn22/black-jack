@@ -1,20 +1,55 @@
 
 document.querySelector("#newGame").addEventListener("click", newGame)
 
+
+var suit = ["❤️", "♦️", "♠️", "♣️"]
+var cardNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+
 function newGame() {
+    
+    var d = 0
+    var y = 0
 
-var dealerCardTwo = Math.floor(Math.random() * 13) + 1;
-var dealerCardOne = Math.floor(Math.random() * 13) + 1;
-var yourCardOne = Math.floor(Math.random() * 13) + 1;
-var yourCardTwo = Math.floor(Math.random() * 13) + 1;
+    return dealCards()    
 
-document.getElementById("dealerCard1").innerHTML = dealerCardOne
-document.getElementById("dealerCard2").innerHTML = dealerCardTwo
-document.getElementById("yourCard1").innerHTML = yourCardOne
-document.getElementById("yourCard2").innerHTML = yourCardTwo
+        function dealCards(){
 
-console.log(dealerCardOne)
+            for (let i = 0; i < 2; i++) {
+                dealersCard()
+                yourCard()
+            }
 
+            function dealersCard() {
+                
+                
+                var getSuit = suit[Math.floor(Math.random() * 4)]
+                var getCardNumber = cardNumber[Math.floor(Math.random() * 13)]
+                if (getCardNumber > 10) {
+                    getCardNumber = 10
+                } else {
+                    getCardNumber = getCardNumber
+                }
+                
+                var dealOneCard = document.getElementById("houseCard" + d ).innerHTML = getCardNumber + getSuit;
+                d++
+                return (dealOneCard)
+            }
+
+            function yourCard() {
+                
+                var getSuit = suit[Math.floor(Math.random() * 4)]
+                var getCardNumber = cardNumber[Math.floor(Math.random() * 13)]
+                if (getCardNumber > 10) {
+                    getCardNumber = 10
+                } else {
+                    getCardNumber = getCardNumber
+                }
+                
+                var dealOneCard = document.getElementById("yourCard" + y ).innerHTML = getCardNumber + getSuit;
+                y++
+
+                return (dealOneCard)
+            }
+        }
 } 
-
-var cards = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10] ]
