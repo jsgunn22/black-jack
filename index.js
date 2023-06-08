@@ -55,13 +55,46 @@ function newGame() {
 
                     yourHand.push(getCardNumber + getSuit)
                     document.getElementById("yourHand").innerHTML = yourHand
+                    yourTotal(yourHand)
 
             } 
 
             document.getElementById("dealerHand").innerHTML = dealersHand
             document.getElementById("yourHand").innerHTML = yourHand
 
+            dealerTotal(dealersHand)
+
+            function dealerTotal(dealersHand) {
                 
-                let dealerTotal = dealersHand.reduce((accumulator, currentValue) => accumulator.slice(0, accumulator.length - 1) + currentValue.slice)
-                console.log(dealerTotal)
+                dealerHandNumbers = []
+
+                for (let i = 0; i < dealersHand.length; i++) {
+                    dealerHandNumbers.push(Number(dealersHand[i].slice(0, dealersHand[i].length - 2)))
+                }
+
+                dealerTotal = dealerHandNumbers.reduce((a, b) => {
+                    return a + b;
+                })
+
+                document.getElementById("dealerTotal").innerHTML = dealerTotal
+            }
+
+            yourTotal(yourHand)
+
+            var yourTotal = function yourTotal(yourHand) {
+                
+                yourHandNumbers = []
+        
+                for (let i = 0; i < yourHand.length; i++) {
+                    yourHandNumbers.push(Number(yourHand[i].slice(0, yourHand[i].length - 2)))
+                }
+        
+                yourTotal = yourHandNumbers.reduce((a, b) => {
+                    return a + b;
+                })
+        
+                document.getElementById("yourTotal").innerHTML = yourTotal
+            }
+        
+
 }
