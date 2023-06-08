@@ -81,7 +81,7 @@ function newGame() {
 
             yourTotal(yourHand)
 
-            var yourTotal = function yourTotal(yourHand) {
+            function yourTotal(yourHand) {
                 
                 yourHandNumbers = []
         
