@@ -1,114 +1,30 @@
-document.querySelector("#newGame").addEventListener("click", newGame);
+const suits = ["❤️", "♦️", "♠️", "♣️"];
+const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
-var suit = ["❤️", "♦️", "♠️", "♣️"];
-var cardNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+var sevenDecks = [];
+var shuffledDeck = [];
 
-function newGame() {
-  var dealersHand = dealersCards();
-  var yourHand = yourCards();
-
-  yourTotal(yourHand);
-  dealerTotal(dealersHand);
-
-  function dealersCards() {
-    var dealersHand = [];
-    for (let i = 0; i < 2; i++) {
-      var getSuit = suit[Math.floor(Math.random() * 4)];
-      var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
-      if (getCardNumber > 10) {
-        getCardNumber = 10;
-      } else {
-        getCardNumber = getCardNumber;
+function shuffleDeck() {
+  for (let d = 0; d < 7; d++) {
+    for (let s = 0; s < suits.length; s++) {
+      for (let v = 0; v < values.length; v++) {
+        sevenDecks.push({
+          deckNumber: d,
+          suit: suits[s],
+          value: values[v],
+          face: face[v],
+        });
       }
-      dealersHand.push(getCardNumber + getSuit);
     }
-    return dealersHand;
   }
+  for (let i = 0; i < sevenDecks.length; i++) {
+    var randomCard = sevenDecks[Math.floor(Math.random() * sevenDecks.length)];
 
-  function yourCards() {
-    var yourHand = [];
-    for (let i = 0; i < 2; i++) {
-      var getSuit = suit[Math.floor(Math.random() * 4)];
-      var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
-      if (getCardNumber > 10) {
-        getCardNumber = 10;
-      } else {
-        getCardNumber = getCardNumber;
-      }
-      yourHand.push(getCardNumber + getSuit);
-    }
-    return yourHand;
-  }
-
-  document.querySelector("#hit-button").addEventListener("click", hitMe);
-
-  document.getElementById("dealerHand").innerHTML = dealersHand;
-  document.getElementById("yourHand").innerHTML = yourHand;
-
-  function dealerTotal(dealersHand) {
-    dealerHandNumbers = [];
-
-    for (let i = 0; i < dealersHand.length; i++) {
-      dealerHandNumbers.push(
-        Number(dealersHand[i].slice(0, dealersHand[i].length - 2))
-      );
-    }
-
-    dealerTotal = dealerHandNumbers.reduce((a, b) => {
-      return a + b;
-    });
-
-    document.getElementById("dealerTotal").innerHTML = dealerTotal;
-  }
-
-  function yourTotal(yourHand) {
-    yourHandNumbers = [];
-
-    for (let i = 0; i < yourHand.length; i++) {
-      yourHandNumbers.push(
-        Number(yourHand[i].slice(0, yourHand[i].length - 2))
-      );
-    }
-
-    yourTotal = yourHandNumbers.reduce((a, b) => {
-      return a + b;
-    });
-    if (yourTotal === 21) {
-      document.getElementById("yourTotal").innerHTML =
-        yourTotal + " Black Jack!!";
+    if (randomCard != shuffledDeck.includes()) {
+      shuffledDeck.push(randomCard);
     } else {
-      document.getElementById("yourTotal").innerHTML = yourTotal;
-    }
-  }
-
-  function hitMe() {
-    var getSuit = suit[Math.floor(Math.random() * 4)];
-    var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
-    if (getCardNumber > 10) {
-      getCardNumber = 10;
-    } else {
-      getCardNumber = getCardNumber;
-    }
-
-    yourHand.push(getCardNumber + getSuit);
-    document.getElementById("yourHand").innerHTML = yourHand;
-    yourHandNumbers = [];
-
-    for (let i = 0; i < yourHand.length; i++) {
-      yourHandNumbers.push(
-        Number(yourHand[i].slice(0, yourHand[i].length - 2))
-      );
-    }
-    // This section inside of the hit button rebuild the players total based on the new array
-    yourTotal = yourHandNumbers.reduce((a, b) => {
-      return a + b;
-    });
-
-    if (yourTotal > 21) {
-      document.getElementById("yourTotal").innerHTML =
-        yourTotal + " You busted, Bro...";
-    } else {
-      document.getElementById("yourTotal").innerHTML = yourTotal;
+      i = i - 1;
     }
   }
 }
