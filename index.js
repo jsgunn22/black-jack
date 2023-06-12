@@ -1,100 +1,30 @@
-document.querySelector("#newGame").addEventListener("click", newGame)
+const suits = ["❤️", "♦️", "♠️", "♣️"];
+const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
+var sevenDecks = [];
+var shuffledDeck = [];
 
+function shuffleDeck() {
+  for (let d = 0; d < 7; d++) {
+    for (let s = 0; s < suits.length; s++) {
+      for (let v = 0; v < values.length; v++) {
+        sevenDecks.push({
+          deckNumber: d,
+          suit: suits[s],
+          value: values[v],
+          face: face[v],
+        });
+      }
+    }
+  }
+  for (let i = 0; i < sevenDecks.length; i++) {
+    var randomCard = sevenDecks[Math.floor(Math.random() * sevenDecks.length)];
 
-var suit = ["❤️", "♦️", "♠️", "♣️"]
-var cardNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-
-
-function newGame() {
-    
-    
-    var dealersHand = dealersCards();
-    var yourHand = yourCards();
-
-    yourTotal(yourHand)
-    dealerTotal(dealersHand)
-
-            function dealersCards() {
-                var dealersHand = []
-                for (let i = 0; i < 2; i++) {
-                    var getSuit = suit[Math.floor(Math.random() * 4)]
-                    var getCardNumber = cardNumber[Math.floor(Math.random() * 13)]
-                    if (getCardNumber > 10) {
-                        getCardNumber = 10
-                    } else {
-                    getCardNumber = getCardNumber
-                    }
-                    dealersHand.push(getCardNumber + getSuit)
-                    }
-                return (dealersHand)
-            }
-
-            function yourCards() {
-                var yourHand = []
-                for (let i = 0; i < 2; i++) {
-                    var getSuit = suit[Math.floor(Math.random() * 4)]
-                    var getCardNumber = cardNumber[Math.floor(Math.random() * 13)]
-                    if (getCardNumber > 10) {
-                        getCardNumber = 10
-                    } else {
-                    getCardNumber = getCardNumber
-                    }
-                    yourHand.push(getCardNumber + getSuit)
-                    }
-                return (yourHand)
-            }
-          
-            document.querySelector("#hit-button").addEventListener("click", hitMe) 
-
-            function hitMe() {
-                    var getSuit = suit[Math.floor(Math.random() * 4)]
-                    var getCardNumber = cardNumber[Math.floor(Math.random() * 13)]
-                    if (getCardNumber > 10) {
-                        getCardNumber = 10
-                    } else {
-                    getCardNumber = getCardNumber
-                    }
-
-                    yourHand.push(getCardNumber + getSuit)
-                    document.getElementById("yourHand").innerHTML = yourHand
-
-            } 
-
-            document.getElementById("dealerHand").innerHTML = dealersHand
-            document.getElementById("yourHand").innerHTML = yourHand
-
-            function dealerTotal(dealersHand) {
-                
-                dealerHandNumbers = []
-
-                for (let i = 0; i < dealersHand.length; i++) {
-                    dealerHandNumbers.push(Number(dealersHand[i].slice(0, dealersHand[i].length - 2)))
-                }
-
-                dealerTotal = dealerHandNumbers.reduce((a, b) => {
-                    return a + b;
-                })
-
-                document.getElementById("dealerTotal").innerHTML = dealerTotal
-            }
-
-            
-
-            function yourTotal(yourHand) {
-                
-                yourHandNumbers = []
-        
-                for (let i = 0; i < yourHand.length; i++) {
-                    yourHandNumbers.push(Number(yourHand[i].slice(0, yourHand[i].length - 2)))
-                }
-        
-                yourTotal = yourHandNumbers.reduce((a, b) => {
-                    return a + b;
-                })
-        
-                document.getElementById("yourTotal").innerHTML = yourTotal
-            }
-        
-
+    if (randomCard != shuffledDeck.includes()) {
+      shuffledDeck.push(randomCard);
+    } else {
+      i = i - 1;
+    }
+  }
 }
