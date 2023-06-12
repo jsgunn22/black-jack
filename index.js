@@ -12,6 +12,9 @@ function newGame() {
     var dealersHand = dealersCards();
     var yourHand = yourCards();
 
+    yourTotal(yourHand)
+    dealerTotal(dealersHand)
+
             function dealersCards() {
                 var dealersHand = []
                 for (let i = 0; i < 2; i++) {
@@ -55,14 +58,11 @@ function newGame() {
 
                     yourHand.push(getCardNumber + getSuit)
                     document.getElementById("yourHand").innerHTML = yourHand
-                    yourTotal(yourHand)
 
             } 
 
             document.getElementById("dealerHand").innerHTML = dealersHand
             document.getElementById("yourHand").innerHTML = yourHand
-
-            dealerTotal(dealersHand)
 
             function dealerTotal(dealersHand) {
                 
@@ -79,7 +79,7 @@ function newGame() {
                 document.getElementById("dealerTotal").innerHTML = dealerTotal
             }
 
-            yourTotal(yourHand)
+            
 
             function yourTotal(yourHand) {
                 
