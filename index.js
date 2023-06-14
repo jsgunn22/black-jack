@@ -5,6 +5,27 @@ const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 document.querySelector("#shuffleDeck").addEventListener("click", shuffleDecks);
 
 var shuffledDeck = [];
+var dealersHand = [];
+var playersHand = [];
+
+function getTotal() {
+  // player total
+  var playerTemp = [];
+
+  for (let i = 0; i < playersHand.length; i++) {
+    playerTemp.push(playersHand[i].value);
+  }
+
+  playerTotal = playerTemp.reduce((a, b) => {
+    return a + b;
+  });
+
+  if (playerTemp.includes(1) || playerTotal > 21) {
+    playerTotal = playerTotal + 10;
+  }
+
+  console.log(playerTotal);
+}
 
 function shuffleDecks() {
   shuffledDeck = []; // this clears the array on a new shuffle
@@ -43,4 +64,34 @@ function shuffleDecks() {
   //   var element = document.getElementById("new");
   //   element.appendChild(tag);
   // }
+  console.log(shuffledDeck.length);
+}
+
+// This section deals the initial hand of a new game
+document.querySelector("#dealCards").addEventListener("click", dealCards);
+
+function dealCards() {
+  playersHand = [];
+  dealersHand = [];
+
+  while (playersHand.length + dealersHand.length < 4) {
+    playersHand.push(shuffledDeck.shift());
+    dealersHand.push(shuffledDeck.shift());
+  }
+
+  document.getElementById("playersHand").innerHTML =
+    playersHand[0].face +
+    playersHand[0].suit +
+    " " +
+    playersHand[1].face +
+    playersHand[1].suit;
+  document.getElementById("dealersHand").innerHTML =
+    dealersHand[0].face +
+    dealersHand[0].suit +
+    " " +
+    dealersHand[1].face +
+    dealersHand[1].suit;
+
+  console.log(shuffledDeck.length);
+  getTotal();
 }
