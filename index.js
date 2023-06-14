@@ -8,23 +8,25 @@ var shuffledDeck = [];
 var dealersHand = [];
 var playersHand = [];
 
-function getTotal() {
-  // player total
-  var playerTemp = [];
+function getTotal(hand) {
+  var temp = [];
 
-  for (let i = 0; i < playersHand.length; i++) {
-    playerTemp.push(playersHand[i].value);
+  // gets value from each card in hang and pushes to temp
+  for (let i = 0; i < hand.length; i++) {
+    temp.push(hand[i].value);
   }
 
-  playerTotal = playerTemp.reduce((a, b) => {
+  // accumulates temp
+  total = temp.reduce((a, b) => {
     return a + b;
   });
 
-  if (playerTemp.includes(1) || playerTotal > 21) {
-    playerTotal = playerTotal + 10;
+  // conditional for ace card
+  if (temp.includes(1) || total > 21) {
+    total = total + 10;
   }
 
-  console.log(playerTotal);
+  return total;
 }
 
 function shuffleDecks() {
@@ -64,8 +66,23 @@ function shuffleDecks() {
   //   var element = document.getElementById("new");
   //   element.appendChild(tag);
   // }
-  console.log(shuffledDeck.length);
 }
+
+// deals a single card to whichever players hand array is fed in
+function singleCard(hand) {
+  hand.push(shuffledDeck.shift());
+}
+
+// function printHand(hand) {
+//   // this section is to test print the shuffled deck
+//   for (let i = 0; i < hand.length; i++) {
+//     var tag = document.createElement("p");
+//     var text = document.createTextNode(hand[i].face + hand[i].suit);
+//     tag.appendChild(text);
+//     var element = document.getElementById(String(hand));
+//     element.appendChild(tag);
+//   }
+// }
 
 // This section deals the initial hand of a new game
 document.querySelector("#dealCards").addEventListener("click", dealCards);
@@ -75,9 +92,11 @@ function dealCards() {
   dealersHand = [];
 
   while (playersHand.length + dealersHand.length < 4) {
-    playersHand.push(shuffledDeck.shift());
-    dealersHand.push(shuffledDeck.shift());
+    singleCard(playersHand);
+    singleCard(dealersHand);
   }
+
+  // printHand(playersHand);
 
   document.getElementById("playersHand").innerHTML =
     playersHand[0].face +
@@ -92,6 +111,16 @@ function dealCards() {
     dealersHand[1].face +
     dealersHand[1].suit;
 
-  console.log(shuffledDeck.length);
-  getTotal();
+  // console.log(shuffledDeck.length);
+
+  // prints totals for both hands
+  document.getElementById("playerTotal").innerHTML = getTotal(playersHand);
+  document.getElementById("dealerTotal").innerHTML = getTotal(dealersHand);
+}
+
+document.querySelector("#hit").addEventListener("click", hitMe);
+
+function hitMe() {
+  singleCard(playersHand);
+  document.getElementById("playerTotal").innerHTML = getTotal(playersHand);
 }
