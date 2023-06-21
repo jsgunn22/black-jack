@@ -11,6 +11,9 @@ var playersHand = [];
 function getTotal(hand) {
   var temp = [];
 
+  for (let i = 0; i < temp.length; i++) {
+    temp.pop();
+  }
   // gets value from each card in hang and pushes to temp
   for (let i = 0; i < hand.length; i++) {
     temp.push(hand[i].value);
@@ -22,11 +25,16 @@ function getTotal(hand) {
   });
 
   // conditional for ace card
-  if (temp.includes(1) || total > 21) {
-    total = total + 10;
-  }
 
-  return total;
+  // if (total < 21) {
+  //   if (temp.includes(1) === true) {
+  //     return total + 10;
+  //   } else {
+  //     return total;
+  //   }
+  // } else {
+  //   return total;
+  // }
 }
 
 function shuffleDecks() {
@@ -96,14 +104,13 @@ function dealCards() {
     singleCard(dealersHand);
   }
 
-  // printHand(playersHand);
-
-  document.getElementById("playersHand").innerHTML =
-    playersHand[0].face +
-    playersHand[0].suit +
-    " " +
-    playersHand[1].face +
-    playersHand[1].suit;
+  printHand(playersHand);
+  // document.getElementById("playersHand").innerHTML =
+  //   playersHand[0].face +
+  //   playersHand[0].suit +
+  //   " " +
+  //   playersHand[1].face +
+  //   playersHand[1].suit;
   document.getElementById("dealersHand").innerHTML =
     dealersHand[0].face +
     dealersHand[0].suit +
@@ -123,4 +130,14 @@ document.querySelector("#hit").addEventListener("click", hitMe);
 function hitMe() {
   singleCard(playersHand);
   document.getElementById("playerTotal").innerHTML = getTotal(playersHand);
+
+  printHand(playersHand);
+}
+
+function printHand(hand) {
+  var temp = [];
+  for (let i = 0; i < hand.length; i++) {
+    temp.push(hand[i].face + hand[i].suit + " ");
+  }
+  document.getElementById("playersHand").innerHTML = temp;
 }
