@@ -20,21 +20,11 @@ function getTotal(hand) {
   }
 
   // accumulates temp
-  total = temp.reduce((a, b) => {
+  var total = temp.reduce((a, b) => {
     return a + b;
   });
 
   // conditional for ace card
-
-  // if (total < 21) {
-  //   if (temp.includes(1) === true) {
-  //     return total + 10;
-  //   } else {
-  //     return total;
-  //   }
-  // } else {
-  //   return total;
-  // }
 }
 
 function shuffleDecks() {
