@@ -3,15 +3,27 @@ const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 document.querySelector("#shuffleDeck").addEventListener("click", shuffleDecks);
+document.querySelector("#dealCards").addEventListener("click", dealCards);
 document.querySelector("#hit").addEventListener("click", hitMe);
+document.querySelector("#stay").addEventListener("click", stay);
 
 var shuffledDeck = [];
 var dealersHand = [];
 var playersHand = [];
+var count = 0;
 
 // deals a single card to whichever players hand array is fed in
 function singleCard(hand) {
-  hand.push(shuffledDeck.shift());
+  var temp = shuffledDeck.shift();
+
+  if (temp.value < 8) {
+    count++;
+  } else if (temp.value > 9) {
+    count--;
+  }
+
+  hand.push(temp);
+  console.log(count);
 }
 
 // called to reprint hand whenever a card is dealt
@@ -46,10 +58,10 @@ function getTotal(hand, id) {
   }
 
   document.getElementById(id).innerHTML = total;
+  document.getElementById("deckTotal").innerHTML = shuffledDeck.length;
 }
 
 // BUTTON OPERATIONS
-
 function shuffleDecks() {
   shuffledDeck = []; // this clears the array on a new shuffle
   var sevenDecks = [];
@@ -76,12 +88,9 @@ function shuffleDecks() {
     );
     shuffledDeck.push(temp.pop());
   }
-  dealCards();
 }
 
 // This section deals the initial hand of a new game
-document.querySelector("#dealCards").addEventListener("click", dealCards);
-
 function dealCards() {
   playersHand = [];
   dealersHand = [];
@@ -102,4 +111,8 @@ function hitMe() {
   singleCard(playersHand);
   getTotal(playersHand, "playerTotal");
   printHand(playersHand, "playersHand");
+}
+
+function stay() {
+  console.log("stay");
 }
