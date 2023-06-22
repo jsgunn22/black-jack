@@ -3,34 +3,52 @@ const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 document.querySelector("#shuffleDeck").addEventListener("click", shuffleDecks);
+document.querySelector("#hit").addEventListener("click", hitMe);
 
 var shuffledDeck = [];
 var dealersHand = [];
 var playersHand = [];
 
-function getTotal(hand) {
+// deals a single card to whichever players hand array is fed in
+function singleCard(hand) {
+  hand.push(shuffledDeck.shift());
+}
+
+// called to reprint hand whenever a card is dealt
+function printHand(hand, id) {
+  var temp = [];
+  for (let i = 0; i < hand.length; i++) {
+    temp.push(hand[i].face + hand[i].suit + " ");
+  }
+  document.getElementById(id).innerHTML = temp;
+}
+
+// called to repring total - string is the id of the dom object to be updated
+function getTotal(hand, id) {
   var temp = [];
 
   for (let i = 0; i < temp.length; i++) {
     temp.pop();
   }
-  // gets value from each card in hang and pushes to temp
+
   for (let i = 0; i < hand.length; i++) {
     temp.push(hand[i].value);
   }
 
-  // accumulates temp
   total = temp.reduce((a, b) => {
     return a + b;
   });
 
-  // conditional for ace card
   if (temp.includes(1) && total + 10 <= 21) {
-    return total + 10;
+    total = total + 10;
   } else {
-    return total;
+    total = total;
   }
+
+  document.getElementById(id).innerHTML = total;
 }
+
+// BUTTON OPERATIONS
 
 function shuffleDecks() {
   shuffledDeck = []; // this clears the array on a new shuffle
@@ -58,34 +76,8 @@ function shuffleDecks() {
     );
     shuffledDeck.push(temp.pop());
   }
-
-  // this section is to test print the shuffled deck
-  // for (let i = 0; i < shuffledDeck.length; i++) {
-  //   var tag = document.createElement("p");
-  //   var text = document.createTextNode(
-  //     shuffledDeck[i].face + shuffledDeck[i].suit
-  //   );
-  //   tag.appendChild(text);
-  //   var element = document.getElementById("new");
-  //   element.appendChild(tag);
-  // }
+  dealCards();
 }
-
-// deals a single card to whichever players hand array is fed in
-function singleCard(hand) {
-  hand.push(shuffledDeck.shift());
-}
-
-// function printHand(hand) {
-//   // this section is to test print the shuffled deck
-//   for (let i = 0; i < hand.length; i++) {
-//     var tag = document.createElement("p");
-//     var text = document.createTextNode(hand[i].face + hand[i].suit);
-//     tag.appendChild(text);
-//     var element = document.getElementById(String(hand));
-//     element.appendChild(tag);
-//   }
-// }
 
 // This section deals the initial hand of a new game
 document.querySelector("#dealCards").addEventListener("click", dealCards);
@@ -99,40 +91,15 @@ function dealCards() {
     singleCard(dealersHand);
   }
 
-  printHand(playersHand);
-  // document.getElementById("playersHand").innerHTML =
-  //   playersHand[0].face +
-  //   playersHand[0].suit +
-  //   " " +
-  //   playersHand[1].face +
-  //   playersHand[1].suit;
-  document.getElementById("dealersHand").innerHTML =
-    dealersHand[0].face +
-    dealersHand[0].suit +
-    " " +
-    dealersHand[1].face +
-    dealersHand[1].suit;
-
-  // console.log(shuffledDeck.length);
-
-  // prints totals for both hands
-  document.getElementById("playerTotal").innerHTML = getTotal(playersHand);
-  document.getElementById("dealerTotal").innerHTML = getTotal(dealersHand);
+  printHand(playersHand, "playersHand");
+  printHand(dealersHand, "dealersHand");
+  getTotal(playersHand, "playerTotal");
+  getTotal(dealersHand, "dealerTotal");
 }
 
-document.querySelector("#hit").addEventListener("click", hitMe);
-
+// adds a single card to player and re prints hand
 function hitMe() {
   singleCard(playersHand);
-  document.getElementById("playerTotal").innerHTML = getTotal(playersHand);
-
-  printHand(playersHand);
-}
-
-function printHand(hand) {
-  var temp = [];
-  for (let i = 0; i < hand.length; i++) {
-    temp.push(hand[i].face + hand[i].suit + " ");
-  }
-  document.getElementById("playersHand").innerHTML = temp;
+  getTotal(playersHand, "playerTotal");
+  printHand(playersHand, "playersHand");
 }
