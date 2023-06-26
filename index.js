@@ -2,6 +2,7 @@ const suits = ["❤️", "♦️", "♠️", "♣️"];
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
+// Total score DOMs
 const playerId = document.getElementById("playerTotal");
 const dealerId = document.getElementById("dealerTotal");
 
@@ -11,6 +12,7 @@ const dealButton = document.querySelector("#dealCards");
 const hitButton = document.querySelector("#hit");
 const stayButton = document.querySelector("#stay");
 
+// Button Listeners
 shuffleButton.addEventListener("click", shuffleDecks);
 dealButton.addEventListener("click", dealCards);
 hitButton.addEventListener("click", hitMe);
