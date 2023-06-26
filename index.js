@@ -2,6 +2,9 @@ const suits = ["❤️", "♦️", "♠️", "♣️"];
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
+const playerId = document.getElementById("playerTotal");
+const dealerId = document.getElementById("dealerTotal");
+
 document.querySelector("#shuffleDeck").addEventListener("click", shuffleDecks);
 document.querySelector("#dealCards").addEventListener("click", dealCards);
 document.querySelector("#hit").addEventListener("click", hitMe);
@@ -17,7 +20,11 @@ function singleCard(hand) {
   var temp = shuffledDeck.shift();
 
   if (temp.value < 8) {
-    count++;
+    if (temp.value === 1) {
+      count--;
+    } else {
+      count++;
+    }
   } else if (temp.value > 9) {
     count--;
   }
@@ -35,8 +42,8 @@ function printHand(hand, id) {
   document.getElementById(id).innerHTML = temp;
 }
 
-// called to repring total - string is the id of the dom object to be updated
-function getTotal(hand, id) {
+// called to reprint total
+function getTotal(hand) {
   var temp = [];
 
   for (let i = 0; i < temp.length; i++) {
@@ -52,17 +59,15 @@ function getTotal(hand, id) {
   });
 
   if (temp.includes(1) && total + 10 <= 21) {
-    total = total + 10;
+    return total + 10;
   } else {
-    total = total;
+    return total;
   }
-
-  document.getElementById(id).innerHTML = total;
-  document.getElementById("deckTotal").innerHTML = shuffledDeck.length;
 }
 
 // BUTTON OPERATIONS
 function shuffleDecks() {
+  count = 0;
   shuffledDeck = []; // this clears the array on a new shuffle
   var sevenDecks = [];
 
@@ -101,16 +106,22 @@ function dealCards() {
   }
 
   printHand(playersHand, "playersHand");
-  printHand(dealersHand, "dealersHand");
-  getTotal(playersHand, "playerTotal");
-  getTotal(dealersHand, "dealerTotal");
+  document.getElementById("dealersHand").innerHTML =
+    dealersHand[0].face + dealersHand[0].suit + ", ??";
+  playerId.innerHTML = getTotal(playersHand);
+  dealerId.innerHTML = getTotal(dealersHand);
 }
 
 // adds a single card to player and re prints hand
 function hitMe() {
   singleCard(playersHand);
-  getTotal(playersHand, "playerTotal");
   printHand(playersHand, "playersHand");
+
+  if (getTotal(playersHand) > 21) {
+    playerId.innerHTML = getTotal(playersHand);
+  } else {
+    playerId.innerHTML = getTotal(playersHand) + " You busted";
+  }
 }
 
 function stay() {
