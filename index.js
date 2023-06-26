@@ -105,11 +105,29 @@ function dealCards() {
     singleCard(dealersHand);
   }
 
+  // Prints players hand
   printHand(playersHand, "playersHand");
-  document.getElementById("dealersHand").innerHTML =
-    dealersHand[0].face + dealersHand[0].suit + ", ??";
-  playerId.innerHTML = getTotal(playersHand);
-  dealerId.innerHTML = getTotal(dealersHand);
+
+  // dealers second card on deal is face down.
+  if (dealersHand[0].value === 1 || dealersHand[0].value === 10) {
+    printHand(dealersHand, "dealersHand");
+  } else {
+    document.getElementById("dealersHand").innerHTML =
+      dealersHand[0].face + dealersHand[0].suit + ", ??";
+  }
+
+  // blackjack on deal
+  if (getTotal(playersHand) === 21 && getTotal(dealersHand) === 21) {
+    dealerId.innerHTML = getTotal(dealersHand) + " DEALER BLACK JACK!!";
+    playerId.innerHTML = getTotal(playersHand) + " Push goes to the house ☹️";
+  } else if (getTotal(playersHand) === 21) {
+    playerId.innerHTML = getTotal(playersHand) + " BLACK JACK!!";
+  } else if (getTotal(dealersHand) === 21) {
+    dealerId.innerHTML = getTotal(dealersHand) + " DEALER BLACK JACK!!";
+  } else {
+    playerId.innerHTML = getTotal(playersHand);
+    dealerId.innerHTML = getTotal(dealersHand);
+  }
 }
 
 // adds a single card to player and re prints hand
@@ -117,7 +135,8 @@ function hitMe() {
   singleCard(playersHand);
   printHand(playersHand, "playersHand");
 
-  if (getTotal(playersHand) > 21) {
+  // Player bust logic
+  if (getTotal(playersHand) <= 21) {
     playerId.innerHTML = getTotal(playersHand);
   } else {
     playerId.innerHTML = getTotal(playersHand) + " You busted";
