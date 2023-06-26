@@ -1,20 +1,20 @@
 document.querySelector("#newGame").addEventListener("click", newGame);
 
-var suit = ["❤️", "♦️", "♠️", "♣️"];
-var cardNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+let suit = ["❤️", "♦️", "♠️", "♣️"];
+let cardNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 function newGame() {
-  var dealersHand = dealersCards();
-  var yourHand = yourCards();
+  let dealersHand = dealersCards();
+  let yourHand = yourCards();
 
   yourTotal(yourHand);
   dealerTotal(dealersHand);
 
   function dealersCards() {
-    var dealersHand = [];
+    let dealersHand = [];
     for (let i = 0; i < 2; i++) {
-      var getSuit = suit[Math.floor(Math.random() * 4)];
-      var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
+      let getSuit = suit[Math.floor(Math.random() * 4)];
+      let getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
       if (getCardNumber > 10) {
         getCardNumber = 10;
       } else {
@@ -26,10 +26,10 @@ function newGame() {
   }
 
   function yourCards() {
-    var yourHand = [];
+    let yourHand = [];
     for (let i = 0; i < 2; i++) {
-      var getSuit = suit[Math.floor(Math.random() * 4)];
-      var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
+      let getSuit = suit[Math.floor(Math.random() * 4)];
+      let getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
       if (getCardNumber > 10) {
         getCardNumber = 10;
       } else {
@@ -82,8 +82,8 @@ function newGame() {
   }
 
   function hitMe() {
-    var getSuit = suit[Math.floor(Math.random() * 4)];
-    var getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
+    let getSuit = suit[Math.floor(Math.random() * 4)];
+    let getCardNumber = cardNumber[Math.floor(Math.random() * 13)];
     if (getCardNumber > 10) {
       getCardNumber = 10;
     } else {

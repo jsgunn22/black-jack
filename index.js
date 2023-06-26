@@ -5,19 +5,25 @@ const face = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const playerId = document.getElementById("playerTotal");
 const dealerId = document.getElementById("dealerTotal");
 
-document.querySelector("#shuffleDeck").addEventListener("click", shuffleDecks);
-document.querySelector("#dealCards").addEventListener("click", dealCards);
-document.querySelector("#hit").addEventListener("click", hitMe);
-document.querySelector("#stay").addEventListener("click", stay);
+// button DOMs
+const shuffleButton = document.querySelector("#shuffleDeck");
+const dealButton = document.querySelector("#dealCards");
+const hitButton = document.querySelector("#hit");
+const stayButton = document.querySelector("#stay");
 
-var shuffledDeck = [];
-var dealersHand = [];
-var playersHand = [];
-var count = 0;
+shuffleButton.addEventListener("click", shuffleDecks);
+dealButton.addEventListener("click", dealCards);
+hitButton.addEventListener("click", hitMe);
+stayButton.addEventListener("click", stay);
+
+let shuffledDeck = [];
+let dealersHand = [];
+let playersHand = [];
+let count = 0;
 
 // deals a single card to whichever players hand array is fed in
 function singleCard(hand) {
-  var temp = shuffledDeck.shift();
+  let temp = shuffledDeck.shift();
 
   if (temp.value < 8) {
     if (temp.value === 1) {
@@ -35,7 +41,7 @@ function singleCard(hand) {
 
 // called to reprint hand whenever a card is dealt
 function printHand(hand, id) {
-  var temp = [];
+  let temp = [];
   for (let i = 0; i < hand.length; i++) {
     temp.push(hand[i].face + hand[i].suit + " ");
   }
@@ -44,7 +50,7 @@ function printHand(hand, id) {
 
 // called to reprint total
 function getTotal(hand) {
-  var temp = [];
+  let temp = [];
 
   for (let i = 0; i < temp.length; i++) {
     temp.pop();
@@ -69,7 +75,7 @@ function getTotal(hand) {
 function shuffleDecks() {
   count = 0;
   shuffledDeck = []; // this clears the array on a new shuffle
-  var sevenDecks = [];
+  let sevenDecks = [];
 
   // creates seven decks to fill the sevenDecks array
   for (let d = 0; d < 7; d++) {
@@ -86,7 +92,7 @@ function shuffleDecks() {
   }
 
   // shuffles sevenDecks and pushes each card to shuffledDecks
-  var temp = [];
+  let temp = [];
   while (shuffledDeck.length < 364) {
     temp.push(
       sevenDecks.splice(Math.floor(Math.random() * sevenDecks.length - 1), 1)[0]
@@ -99,6 +105,9 @@ function shuffleDecks() {
 function dealCards() {
   playersHand = [];
   dealersHand = [];
+  // enables buttons on deal
+  hitButton.disabled = false;
+  stayButton.disabled = false;
 
   while (playersHand.length + dealersHand.length < 4) {
     singleCard(playersHand);
@@ -120,10 +129,14 @@ function dealCards() {
   if (getTotal(playersHand) === 21 && getTotal(dealersHand) === 21) {
     dealerId.innerHTML = getTotal(dealersHand) + " DEALER BLACK JACK!!";
     playerId.innerHTML = getTotal(playersHand) + " Push goes to the house ☹️";
+    hitButton.disabled = true;
+    stayButton.disabled = true;
   } else if (getTotal(playersHand) === 21) {
     playerId.innerHTML = getTotal(playersHand) + " BLACK JACK!!";
   } else if (getTotal(dealersHand) === 21) {
     dealerId.innerHTML = getTotal(dealersHand) + " DEALER BLACK JACK!!";
+    hitButton.disabled = true;
+    stayButton.disabled = true;
   } else {
     playerId.innerHTML = getTotal(playersHand);
     dealerId.innerHTML = getTotal(dealersHand);
@@ -140,6 +153,9 @@ function hitMe() {
     playerId.innerHTML = getTotal(playersHand);
   } else {
     playerId.innerHTML = getTotal(playersHand) + " You busted";
+    //disables buttons on bust
+    hitButton.disabled = true;
+    stayButton.disabled = true;
   }
 }
 
